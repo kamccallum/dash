@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-import dash_bootstrap_components as dbc
 
 # Incorporate data
 df = pd.read_csv('goodreads_library.csv')
