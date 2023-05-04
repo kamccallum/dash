@@ -84,6 +84,7 @@ dm1[['monthRead']] = dm1[['monthRead']].astype(int)
 dm1 = dm1[['bookCount', 'monthRead', 'yearRead']]
 dm1 = dm1.drop_duplicates()
 dm1 = dm1.sort_values(by=['monthRead'], ascending=True)
+print(dm1)
 
 # Initialize the app - incorporate css
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
