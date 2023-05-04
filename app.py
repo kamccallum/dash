@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-import dash_bootstrap_components as dbc
 
 # Incorporate data
 df = pd.read_csv('goodreads_library.csv')
@@ -77,71 +76,123 @@ ratings = [4.928571428571429, 4.384615384615385,
 da2['Authors'] = author
 da2['Ave Rating'] = ratings
 da2 = da2.iloc[:, [1, 0, 2]]
-print(da2)
+
+# Years by Month Line Chart
+dm1 = df[['Title', 'monthRead', 'yearRead']]
+dm1['bookCount'] = dm1.groupby(['monthRead', 'yearRead']).transform('count')
+dm1[['monthRead']] = dm1[['monthRead']].astype(int)
+dm1 = dm1[['bookCount', 'monthRead', 'yearRead']]
+dm1 = dm1.drop_duplicates()
+dm1 = dm1.sort_values(by=['monthRead'], ascending=True)
 
 # Initialize the app - incorporate css
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+
+# Books & Pages Line Chart
+
+fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+fig.add_trace(
+    go.Scatter(x=year, y=books, name="Books"),
+    secondary_y=False,
+)
+fig.add_trace(
+    go.Scatter(x=year, y=pages, name="Pages"),
+    secondary_y=True,
+)
+fig.update_layout(title_text="Number of Books & Pages by Year",)
+fig.update_xaxes(title_text="Year")
+fig.update_yaxes(
+    title_text="Books",
+    secondary_y=False)
+fig.update_yaxes(
+    title_text="Pages",
+    secondary_y=True)
+
+month = px.line(dm1, x="monthRead", y="bookCount", color='yearRead')
+month.update_layout(title_text="Number of Books Read by Year and Month")
+month.update_xaxes(title_text="Month")
+month.update_yaxes(title_text="Number of Books")
+
+# Page Range Pie Chart
+dp1 = df[['Number of Pages']]
+dp1 = dp1[~dp1['Number of Pages'].isnull()]
+dp1[['Number of Pages']] = dp1[['Number of Pages']].astype(int)
+dp1 = dp1.rename(columns={'Number of Pages': 'numPages'})
+
+page_groups = [0, 150, 300, 500, 800, 1000]
+
+for i in range(len(page_groups) - 1):
+    subset = dp1.query(
+        f'numPages >= {page_groups[i]} & numPages < {page_groups[i+1]}')
+    dp1.loc[subset.index, 'page_bin'] = i
+
+dp2 = pd.DataFrame(dp1.page_bin.value_counts(
+).reset_index().values, columns=["Range", "Number"])
+dp2 = dp2.sort_values(by='Number', ascending=False)
+dp2['Range'] = dp2['Range'].map({0.0: 'Under 150', 1.0: 'Between 150 & 300',
+                                 2.0: 'Between 300 & 500', 3.0: 'Between 500 & 800',
+                                 4.0: 'Between 800 & 1000'})
+
+# Publication Range Pie Chart
+dpb1 = df[['Original Publication Year']]
+dpb1 = dpb1[~dpb1['Original Publication Year'].isnull()]
+dpb1[['Original Publication Year']] = dpb1[['Original Publication Year']].astype(int)
+dpb1 = dpb1.rename(columns={'Original Publication Year': 'yearPub'})
+
+pub_groups = [0,1900,1950,2000,2010,2015,2023]
+for i in range(len(pub_groups) - 1):
+    subset = dpb1.query(f'yearPub >= {pub_groups[i]} & yearPub < {pub_groups[i+1]}')
+    dpb1.loc[subset.index, 'pub_bin'] = i
+
+dpb2 = pd.DataFrame(dpb1.pub_bin.value_counts().reset_index().values, columns=["Range", "Number"])
+dpb2 = dpb2.sort_values(by='Number',ascending=False)
+dpb2['Range'] = dpb2['Range'].map({0.0: 'Before 1900', 1.0: 'Between 1900 & 1950',
+                                 2.0: 'Between 1950 & 2000', 3.0: 'Between 2000 & 2010',
+                                 4.0: 'Between 2010 & 2015', 5.0: 'Between 2015 & 2023'})
 
 # App layout
 app.layout = html.Div([
     html.Div(className='row', children=[
-        html.Div(className='six columns', children=[
-            html.Div('Distribution of Ratings',
-                 style={'color': 'white', 'fontSize': 20, "margin-top": "15px", 'font-family': "Helvetica"}),
-            dcc.Graph(figure=px.box(db3, x="Type of Rating",
-                      y='Rating'))
+        html.Div(className='five columns', children=[
+            dcc.Graph(figure=px.box(db3, x="Type of Rating", y='Rating',
+                                    title="Distribution of My Reviews vs the Goodreads Average"))
         ]),
 
-        html.Div(className='six columns', children=[
-            dcc.RadioItems(
-                id='radio',),
-            html.Div('Number of Books and Pages by Year',
-                     style={'color': 'white', 'fontSize': 20, "margin-top": "15px", 'font-family': "Helvetica"}),
-            dcc.Graph(id="graph"),
+        html.Div(className='seven columns', children=[
+            dcc.Graph(figure=fig),
+        ]),
+    ]),
+
+    html.Div(className='row', children=[
+        html.Div(className='five columns', children=[
+            html.H1("Most Read Authors & Their Average Ratings",
+                    style={'color': 'grey', 'fontSize': 18, 'font-family': 'Verdana',
+                           'margin-left': '40px', 'margin-top': '40px',
+                           'letter-spacing': '1px'}),
+            dash_table.DataTable(data=da2.to_dict('records'),
+                                 style_cell={'padding-top': '30px',
+                                             'textAlign': 'left'},
+                                 style_table={
+                                     'margin-left': '40px'}
+                                 ),
+        ]),
+        html.Div(className='seven columns', children=[
+            dcc.Graph(figure=month),
         ]),
     ]),
 
     html.Div(className='row', children=[
         html.Div(className='six columns', children=[
-            html.Div('Most Read Authors & Their Average Ratings',
-                 style={'color': 'white', 'fontSize': 20, "margin-top": "15px", 'font-family': "Helvetica"}),
-            dash_table.DataTable(data=da2.to_dict('records')),
+            dcc.Graph(figure=px.pie(dp2, values='Number', names='Range',title="Books Read by Page Range")),
         ]),
         html.Div(className='six columns', children=[
-            html.Div('Distribution of Ratings',
-                 style={'color': 'white', 'fontSize': 20, "margin-top": "15px", 'font-family': "Helvetica", 'font-weight': 'normal'}),
+            dcc.Graph(figure=px.pie(dpb2, values='Number', names='Range',title="Books Read by Publication Range"))
         ]),
-    ]),
+    ])
 ])
-
-
-@ app.callback(
-    Output('graph', 'figure'),
-    Input('radio', 'value')
-)
-def display_(radio_value):
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
-
-    fig.add_trace(
-        go.Scatter(x=year, y=books, name="Books"),
-        secondary_y=False,
-    )
-    fig.add_trace(
-        go.Scatter(x=year, y=pages, name="Pages"),
-        secondary_y=True,
-    )
-
-    fig.update_xaxes(title_text="Year")
-
-    fig.update_yaxes(
-        title_text="Books",
-        secondary_y=False)
-    fig.update_yaxes(
-        title_text="Pages",
-        secondary_y=True)
-    return fig
-
 
 # Run the app
 if __name__ == '__main__':
