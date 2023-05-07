@@ -1,14 +1,173 @@
 h1 {
-    font-family: "lft-etica-mono", sans-serif;
-    font-weight: 400;
+    font-family: "Verdana";
     font-style: normal;
-    color: white;
-    font-size: 20px;
+    color: rgb(88, 88, 88);
+    font-size: 18px;
+    letter-spacing: 1px;
 } 
 h2 {
-  font-family: "lft-etica-mono", sans-serif;
-  font-weight: 400;
+  font-family: "Verdana";
   font-style: normal;
-  color: white;
-  font-size: 15px;
+  color: rgb(88, 88, 88);
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-left:40px;
+  margin-right:40px;
 } 
+h3 {
+  font-family: "Verdana";
+  font-style: normal;
+  color: rgb(88, 88, 88);
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-left:80px;
+  margin-right:80px;
+}
+p {
+  font-family: "Verdana";
+  font-style: normal;
+  color: rgb(88, 88, 88);
+  font-size: 14px;
+  letter-spacing: .75px;
+  margin-left:80px;
+  margin-right:80px;
+}
+.jump {
+  font-family: "Verdana";
+  font-style: normal;
+  color: rgb(88, 88, 88);
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  padding-bottom: 40px;
+  border-bottom: 5px #dee6f3 dotted;
+}
+.title {
+  padding-top: 40px;
+  border-top: 5px #dee6f3 dotted;
+  text-align: center
+}
+.bookTitle {
+  padding-top: 40px;
+  border-top: 5px #dee6f3 dotted;
+  text-align: center;
+  padding-bottom: 40px;
+  border-bottom: 5px #dee6f3 dotted;
+}
+.covers {
+  margin-left:6%;
+  margin-right:6%;
+}
+a {
+  font-family: "Verdana";
+  font-style: normal;
+  color: rgb(88, 88, 88);
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-left:80px;
+  margin-right:80px;
+}
+#footer {
+  margin-top:40px;
+  text-align:center;
+}
+.arrow {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 300px;
+  width: 200px;
+  margin-top:-200px;
+  -moz-animation: blink normal 2s infinite ease-in-out; /* Firefox */
+  -webkit-animation: blink normal 2s infinite ease-in-out; /* Webkit */
+  -ms-animation: blink normal 2s infinite ease-in-out; /* IE */
+  animation: blink normal 2s infinite ease-in-out; /* Opera and prob css3 final iteration */
+}
+@-moz-keyframes blink {
+  0% {
+      opacity:1;
+  }
+  50% {
+      opacity:0;
+  }
+  100% {
+      opacity:1;
+  }
+} 
+
+@-webkit-keyframes blink {
+  0% {
+      opacity:1;
+  }
+  50% {
+      opacity:0;
+  }
+  100% {
+      opacity:1;
+  }
+}
+/* IE */
+@-ms-keyframes blink {
+  0% {
+      opacity:1;
+  }
+  50% {
+      opacity:0;
+  }
+  100% {
+      opacity:1;
+  }
+} 
+/* Opera and prob css3 final iteration */
+@keyframes blink {
+  0% {
+      opacity:1;
+  }
+  50% {
+      opacity:0;
+  }
+  100% {
+      opacity:1;
+  }
+} 
+.logo {
+  width: 1200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.Footer {
+  width: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.animation-opacity {
+  animation-name: example;
+  animation-duration: 2s;
+}
+@keyframes example {
+  0%   {opacity: 0.2;}
+  25%  {opacity: 0.4;}
+  50%  {opacity: 0.6;}
+  50%  {opacity: 0.8;}
+  100% {opacity: 1;}
+}
+#frame2 {
+  display: -webkit-box;
+  margin-left: auto;
+  height: 350px;
+  margin-bottom: 300px;
+  margin-right: 200px;
+}
+#about{
+  padding-top: 40px;
+  border-top: 5px #dee6f3 dotted;
+  text-align: center;
+  padding-bottom: 40px;
+  border-bottom: 5px #dee6f3 dotted;
+  margin-bottom:20px;
+}
