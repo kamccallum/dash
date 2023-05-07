@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-from dash_svg import Svg, G, Path, Circle
 import base64
 
 # Incorporate data
