@@ -169,7 +169,7 @@ app.layout = html.Div([
     html.H2('until finally stumbling upon a humble, yet welcome, abode: Dash...',
             className='animation'),
     html.Img(src='assets/frame3.png', style={'width': '300px',
-             'margin-bottom': '300px', 'margin-left': '200px'}, className='animation'),
+             'margin-bottom': '100px', 'margin-left': '200px'}, className='animation'),
 
     html.Div(className='row', children=[
         html.H1('Goodreads Data Visualizations', className='title'),
