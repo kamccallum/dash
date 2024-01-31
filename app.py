@@ -172,20 +172,19 @@ app.layout = html.Div([
 
     html.Div(className='row', children=[
         html.H1('Goodreads Data Visualizations', className='title'),
-        html.A('(or jump to description)', className='jump', href='#about'),
         html.Div(className='five columns', children=[
             html.H1("Distribution of Reviews",
                     style={  # 'color': 'grey', 'fontSize': 18, 'font-family': 'Verdana',
-                           'margin-left': '70px', 'margin-top': '40px',
+                           'margin-left': '70px', 'margin-top': '20px',
                     }),
             dcc.Graph(figure=px.box(db3, x="Type of Rating",
-                      y='Rating'), style={'margin-top': '-10px'}),
+                      y='Rating'), style={'margin-top': '-20px'}),
         ]),
 
         html.Div(className='six columns', children=[
             html.H1("Number of Books & Pages by Year",
                     style={  # 'color': 'grey', 'fontSize': 18, 'font-family': 'Verdana',
-                           'margin-left': '80px', 'margin-top': '40px',
+                           'margin-left': '80px', 'margin-top': '40px'
                     }),
             dcc.Graph(figure=fig, style={'margin-top': '-20px'}),
         ]),
@@ -272,41 +271,6 @@ app.layout = html.Div([
                    'margin-left': '0px'}),
             html.P('Takeaway: the majority of books I read were published between 2015 and 2023. I rarely read books published prior to 1900 and books published between 1900 and 1950.', style={
                    'margin-left': '0px', 'margin-bottom': '60px'}),
-        ]),
-    ]),
-    html.Div(className='row', style={'margin-top': '60px'}, children=[
-        html.H1('About', id='about'),
-        html.H3('Summary'),
-        html.P("My Data Tales was created for Fordham University's New Media and Digital Design capstone course. As an avid reader, Kyla \
-                likes to track her books via a popular tool called Goodreads. At the end of the year, Goodreads presents user-centered \
-                data visualizations on the 'Year in Books' page, similar to Spotify's Wrapped feature. However, Kyla took a course on data \
-                visualization in Spring of 2022, and she saw many opportunities to expand upon Goodreads's annual 'Year in Books.' Rather \
-                than using Figma to prototype improvements in Goodreads, she decided to implement these changes herself. This website is \
-                the culmination of a semester's worth of research on programming. Kyla had minimal experience prior to undertaking this \
-                project, with only an 'Introduction to Computer Programming' class under her belt. She substantially built upon her familiarity \
-                with pandas, a python data analysis tool, and started from scratch with plotly/dash. If it had been clear from the get-go \
-                that these two tools, pandas and plotly, were the best for her project, a lot of time would have been saved; \
-                many avenues were explored that did not pan out. Fortunately, Kyla learned a lot, even if this website doesn't demonstrate \
-                all of her efforts. To display the complexity of her work with data, please see screenshots below:"),
-        html.Div(className='row covers', style={'margin-top': "40px", 'padding-left': '70px'}, children=[
-            html.Div(className='six columns', children=[
-                html.Img(src='assets/csvFile.png', style={'width': '100%'}),
-                html.P('The Goodreads CSV file, which has 857 rows'),
-            ]),
-            html.Div(className='five columns', children=[
-                html.Img(src='assets/pandasCSV.png', style={'width': '90%'}),
-                html.P('Preparing data in pandas'),
-            ]),
-        ]),
-        html.Div(className='row covers', style={'margin-top': '30px', 'padding-left': '70px'}, children=[
-            html.Div(className='five columns', style={'height': '550px'}, children=[
-                html.Img(src='assets/pandasLine.png', style={'width': '100%'}),
-                html.P('Data manipulation for a line chart'),
-            ]),
-            html.Div(className='six columns', children=[
-                html.Img(src='assets/pandasPie.png', style={'width': '90%'}),
-                html.P('Data manipulation for a pie chart'),
-            ]),
         ]),
     ]),
     html.Img(src='assets/mdt_init.png', className='Footer'),
